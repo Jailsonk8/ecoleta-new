@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+web/src/compiled
+server/.env
+pgdata
+web-file-docker
+docker-compose.prod.yml

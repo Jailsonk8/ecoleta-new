@@ -1,0 +1,66 @@
+version: '3.5'
+
+services: 
+
+    db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: db_ecoleta
+        volumes:
+            - ./pgdata:/var/lib/postgresql/data
+        ports: 
+            - "5432:5432"
+        networks:
+            - postgres-network
+
+    # pgadmin:
+    #     image: dpage/pgadmin4
+    #     restart: always
+    #     environment: 
+    #         PGADMIN_DEFAULT_EMAIL: postgres
+    #         PGADMIN_DEFAULT_PASSWORD: postgres
+    #     ports:
+    #         - 8080:80
+    #     depends_on:
+    #         - db
+    #     networks:
+    #         - postgres-network
+
+    server:
+        build:
+            context: ./server/
+        #command: /usr/app/node_modules/.bin/nodemon src/index.js
+        command: npm start
+        volumes: 
+            - ./server/:/usr/app
+            - /usr/app/node_modules
+        ports: 
+            - "3333:3333"
+        environment: 
+            - NODE_ENV=development
+            - CHOKIDAR_USEPOLLING=true
+        networks:
+            - postgres-network
+        tty: true
+    
+    web:
+        build:
+            context: ./web/
+        command: npm start
+        volumes: 
+            - ./web/:/usr/app
+            - /usr/app/node_modules
+        depends_on: 
+            - server
+        ports: 
+            - "3000:3000"
+        networks:
+            - postgres-network
+        tty: true
+    
+networks: 
+    postgres-network:
+        driver: bridge
