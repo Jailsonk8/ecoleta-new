@@ -71,3 +71,24 @@ services:
             options: 
                 max-size: "10m"
                 max-file: "5"
+
+    # mobile:
+    #     image: bycedric/expo-cli:3
+    #     container_name: mobile
+    #     restart: always
+    #     volumes: 
+    #         - ./mobile/:/usr/app/
+    #     working_dir: /usr/app/
+    #     ports: 
+    #         - "19002:19002"
+    #         - "19001:19001"
+    #         - "19000:19000"
+    #     depends_on: 
+    #         - server
+    #     command: npm start
+    #     tty: true
+    #     logging: 
+    #         driver: "json-file"
+    #         options: 
+    #             max-size: "10m"
+    #             max-file: "5"
