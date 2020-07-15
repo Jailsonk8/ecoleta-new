@@ -5,3 +5,4 @@ server/.env
 pgdata
 web-file-docker
 docker-compose.prod.yml
+.vscode
